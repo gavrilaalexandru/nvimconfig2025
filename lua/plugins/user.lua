@@ -13,6 +13,19 @@ return {
     config = function() require("lsp_signature").setup() end,
   },
 
+  {
+    "gbprod/cutlass.nvim",
+    event = "VeryLazy",
+    opts = {
+      cut_key = "x", -- change the cut key if you want
+      override_del = true, -- whether to override the delete operations
+      registers = {
+        select = "_", -- register used for cut operations
+        delete = "_", -- register used for delete operations
+      },
+    },
+  },
+
   -- == Examples of Overriding Plugins ==
 
   -- customize alpha options
