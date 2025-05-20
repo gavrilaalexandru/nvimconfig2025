@@ -38,6 +38,7 @@ return {
     -- enable servers that you already have installed without mason
     servers = {
       -- "pyright"
+      "jdtls", -- adăugăm serverul Java Language Server
     },
     -- customize language server configuration options passed to `lspconfig`
     ---@diagnostic disable: missing-fields
@@ -46,6 +47,22 @@ return {
         cmd = { "clangd", "--offset-encoding=utf-16" },
         capabilities = {
           offsetEncoding = { "utf-16" },
+        },
+      },
+      -- Configurare jdtls pentru Java folosind metoda 2
+      jdtls = {
+        settings = {
+          java = {
+            configuration = {
+              runtimes = {
+                {
+                  name = "JavaSE-21",
+                  path = "/Library/Java/JavaVirtualMachines/amazon-corretto-21.jdk/Contents/Home",
+                  default = true,
+                },
+              },
+            },
+          },
         },
       },
     },
@@ -57,6 +74,8 @@ return {
       -- the key is the server that is being setup with `lspconfig`
       -- rust_analyzer = false, -- setting a handler to false will disable the set up of that language server
       -- pyright = function(_, opts) require("lspconfig").pyright.setup(opts) end -- or a custom handler function can be passed
+      -- Folosim un handler personalizat pentru jdtls, care transmite configurația noastră către require('lspconfig').jdtls.setup
+      jdtls = function(server, opts) require("lspconfig")[server].setup(opts) end,
     },
     -- Configure buffer local auto commands to add when attaching a language server
     autocmds = {
